@@ -22,6 +22,18 @@ in a second browser window and drag it onto that screen (press F11 for full
 screen). If it's a different device on your Wi-Fi, use the
 `http://<your-ip>:3000/tank.html` address printed when the server starts.
 
+## Adding accessory photos
+
+Drop images into `public/stickers/` and refresh the drawing page. That's it.
+
+- **PNGs with the background removed** look best: they get a white die-cut
+  edge that follows the shape, like a real sticker. (iPhone: long-press the
+  object in a photo → Copy/Share to cut it out.)
+- Ordinary photos (JPG) get a white printed-photo border instead.
+- The file name becomes the label: `pearl-necklace.png` → "pearl necklace".
+  Start names with numbers to set the order: `01-sunglasses.png`, `02-bow.png`.
+- Until the folder has at least one image, built-in placeholder stickers are shown.
+
 ## Where fish are saved
 
 Every fish is saved to the `data/` folder (`data/fish.json` plus one PNG per
@@ -30,8 +42,11 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 
 ## Progress
 
-- [x] Drawing page: colours, chunky brushes, eraser, undo, clear
-- [x] Accessory stickers: drag, resize, rotate, remove
+- [x] Drawing page: colour wheel + presets + rainbow, crayon / marker / spray /
+      glitter brushes, size slider, eraser, undo, clear
+- [x] Accessory stickers from photos (auto die-cut border): drag, resize, rotate, remove
+- [x] Look: pool tiles with light ripples, film grain, paper + ink panels, bundled fonts
+- [ ] Add the real accessory photos
 - [x] Name + message, send to the tank, "next guest" reset
 - [x] Server that saves fish to disk
 - [ ] Tank page: animated underwater scene, swimming fish, name labels, speech bubbles
@@ -41,5 +56,8 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 
 - `server.js` — tiny no-dependency server and fish storage
 - `public/index.html`, `draw.css`, `draw.js` — the drawing page
-- `public/stickers.js` — the accessory stickers (add your own here)
+- `public/brushes.js` — the brush textures (crayon, marker, spray, glitter)
+- `public/stickers/` — accessory photos go here
+- `public/stickers.js` — placeholder stickers used until photos are added
+- `public/fonts/` — Instrument Serif, Space Grotesk, Space Mono (SIL Open Font License)
 - `public/tank.html` — placeholder tank (lists every saved fish for now)

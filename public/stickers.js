@@ -1,5 +1,5 @@
-// Pre-made accessory stickers. Each is a small SVG; `w`/`h` set its shape.
-// To add one: copy an entry, give it a new id, and draw inside the viewBox.
+// Placeholder accessory stickers, used only while public/stickers/ has no photos in it.
+// Real accessories: drop photo cut-outs (PNG) into public/stickers/ instead.
 
 const OUTLINE = 'stroke="#2b2d42" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
 

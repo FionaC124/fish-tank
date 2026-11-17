@@ -45,7 +45,34 @@ const MIME = {
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.gif': 'image/gif',
+  '.woff2': 'font/woff2',
 };
+
+const STICKER_DIR = path.join(PUBLIC_DIR, 'stickers');
+const STICKER_TYPES = new Set(['.png', '.webp', '.jpg', '.jpeg', '.gif']);
+
+// Every image dropped into public/stickers/ becomes an accessory.
+// "pearl-necklace.png" shows up labelled "pearl necklace".
+function listStickers() {
+  let files = [];
+  try {
+    files = fs.readdirSync(STICKER_DIR);
+  } catch {
+    return [];
+  }
+  return files
+    .filter((f) => STICKER_TYPES.has(path.extname(f).toLowerCase()) && !f.startsWith('.'))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map((f) => ({
+      id: f,
+      label: path.basename(f, path.extname(f)).replace(/^\d+[-_ ]*/, '').replace(/[-_]+/g, ' '),
+      url: `/stickers/${encodeURIComponent(f)}`,
+    }));
+}
 
 function send(res, status, body, type = 'application/json; charset=utf-8') {
   res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store' });
@@ -134,6 +161,7 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (p === '/api/fish' && req.method === 'GET') return send(res, 200, fishList);
+    if (p === '/api/stickers' && req.method === 'GET') return send(res, 200, listStickers());
     if (p === '/api/fish' && req.method === 'POST') return await createFish(req, res);
 
     if (p.startsWith('/fish-images/') && req.method === 'GET') {

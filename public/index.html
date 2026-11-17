@@ -5,42 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Draw Your Fish</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap">
   <link rel="stylesheet" href="draw.css">
 </head>
 <body>
+  <div class="caustics" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
   <header class="top">
-    <h1>Draw your fish! <span class="wave" aria-hidden="true">🫧</span></h1>
-    <p>Draw a fish facing <strong>right →</strong>, dress it up, then send it to the tank in the kitchen.</p>
+    <div class="brand">
+      <span class="stamp">café fish tank</span>
+      <span class="stamp ghost">vol. 01</span>
+    </div>
+    <h1>draw your <em>fish</em></h1>
+    <ol class="steps">
+      <li><b>01</b> draw it</li>
+      <li><b>02</b> dress it</li>
+      <li><b>03</b> sign it</li>
+      <li><b>04</b> drop it in</li>
+    </ol>
   </header>
 
   <main class="layout">
-    <!-- Left: drawing tools -->
-    <section class="tools" aria-label="Drawing tools">
-      <h2>Colour</h2>
-      <div class="swatches" id="swatches" role="radiogroup" aria-label="Colour"></div>
+    <!-- Left: colour + brush -->
+    <section class="panel tools" aria-label="Drawing tools">
+      <h2><b>01</b> colour</h2>
+      <div class="colour-picker">
+        <div class="wheel-wrap">
+          <canvas id="wheel" width="300" height="300" aria-label="Colour wheel"></canvas>
+          <div class="wheel-dot" id="wheelDot"></div>
+        </div>
+        <input class="brightness" id="brightness" type="range" min="10" max="100" value="100"
+               aria-label="Brightness" orient="vertical">
+      </div>
+      <div class="swatches" id="swatches" role="radiogroup" aria-label="Colour presets"></div>
 
-      <h2>Brush</h2>
-      <div class="brushes" id="brushes" role="radiogroup" aria-label="Brush size"></div>
+      <h2><b>02</b> brush</h2>
+      <div class="textures" id="textures" role="radiogroup" aria-label="Brush texture"></div>
 
-      <button class="tool-btn" id="eraserBtn" type="button" aria-pressed="false">
-        <span aria-hidden="true">🩹</span> Eraser
-      </button>
+      <div class="size-row">
+        <input id="sizeSlider" type="range" min="3" max="70" value="18" aria-label="Brush size">
+        <div class="size-preview"><span id="sizeDot"></span></div>
+      </div>
 
       <div class="tool-row">
-        <button class="tool-btn" id="undoBtn" type="button" disabled>
-          <span aria-hidden="true">↶</span> Undo
-        </button>
-        <button class="tool-btn danger" id="clearBtn" type="button">
-          <span aria-hidden="true">✕</span> Clear
-        </button>
+        <button class="tool-btn" id="eraserBtn" type="button" aria-pressed="false">erase</button>
+        <button class="tool-btn" id="undoBtn" type="button" disabled>undo</button>
+        <button class="tool-btn" id="clearBtn" type="button">clear</button>
       </div>
     </section>
 
-    <!-- Middle: the canvas + sticker layer -->
+    <!-- Middle: paper taped onto the pool -->
     <section class="stage-wrap" aria-label="Drawing area">
       <div class="stage" id="stage">
+        <span class="tape tl" aria-hidden="true"></span>
+        <span class="tape br" aria-hidden="true"></span>
         <svg class="guide" viewBox="0 0 720 440" aria-hidden="true">
           <path d="M150 220 C 220 90, 470 80, 560 220 C 470 360, 220 350, 150 220 Z" />
           <path d="M150 220 L 70 140 L 95 220 L 70 300 Z" />
@@ -50,44 +68,44 @@
         <div class="sticker-layer" id="stickerLayer"></div>
         <div class="direction-hint" aria-hidden="true">swims this way →</div>
       </div>
-      <p class="stage-tip">Tip: click a sticker on your fish to move, resize (↘) or spin (⟳) it.</p>
+      <p class="stage-tip">tap a sticker to move it · <b>↘</b> resize · <b>⟳</b> spin · <b>✕</b> remove</p>
     </section>
 
-    <!-- Right: stickers, name, message, send -->
-    <section class="side" aria-label="Accessories and details">
-      <h2>Accessories</h2>
+    <!-- Right: accessories + details -->
+    <section class="panel side" aria-label="Accessories and details">
+      <h2><b>03</b> accessories</h2>
       <div class="sticker-tray" id="stickerTray"></div>
 
       <form id="fishForm" class="details" autocomplete="off">
-        <label for="nameInput">Your name</label>
-        <input id="nameInput" name="name" maxlength="20" placeholder="e.g. Fee" required>
+        <h2><b>04</b> sign it</h2>
+        <label for="nameInput">your name</label>
+        <input id="nameInput" name="name" maxlength="20" placeholder="fee" required>
 
-        <label for="messageInput">A little message <span class="optional">(optional)</span></label>
+        <label for="messageInput">a little note <span class="optional">optional</span></label>
         <textarea id="messageInput" name="message" maxlength="60" rows="2"
-                  placeholder="e.g. this latte is elite"></textarea>
+                  placeholder="this latte is elite"></textarea>
         <div class="counter"><span id="msgCount">0</span>/60</div>
 
         <p class="form-error" id="formError" role="alert"></p>
 
-        <button class="send-btn" id="sendBtn" type="submit">
-          Send to the tank <span aria-hidden="true">🐟</span>
-        </button>
+        <button class="send-btn" id="sendBtn" type="submit">drop it in the tank →</button>
       </form>
     </section>
   </main>
 
   <!-- Shown after a fish is sent -->
   <div class="done" id="done" hidden>
-    <div class="done-card">
-      <img id="donePreview" alt="Your fish">
-      <h2><span id="doneName"></span>'s fish is swimming!</h2>
-      <p>Go say hi in the kitchen 👋</p>
-      <button class="send-btn" id="nextBtn" type="button">Next guest</button>
-      <p class="done-auto">This screen resets in <span id="doneCountdown">20</span>s</p>
+    <div class="polaroid">
+      <div class="photo"><img id="donePreview" alt="Your fish"></div>
+      <p class="caption"><span id="doneName"></span>'s fish is in!</p>
+      <p class="sub">go say hi in the kitchen</p>
+      <button class="send-btn" id="nextBtn" type="button">next guest →</button>
+      <p class="done-auto">resets in <span id="doneCountdown">20</span>s</p>
     </div>
   </div>
 
   <script src="stickers.js"></script>
+  <script src="brushes.js"></script>
   <script src="draw.js"></script>
 </body>
 </html>
