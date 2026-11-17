@@ -42,7 +42,6 @@ New fish drop into the tank within a few seconds of being sent.
   Downloads folder. These only work on the laptop that's running the server
   (i.e. the `localhost` address); browsers block screen capture on plain
   `http://<ip>` addresses.
-- **show corner tag**: hides/shows the little "café fish tank" label.
 
 ## Adding accessory photos
 
@@ -77,7 +76,7 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 - [x] Server that saves fish to disk
 - [x] Tank page: realistic scene, fish swim/turn/tilt/wiggle, name tags, speech
       bubbles, new fish drop in with a splash + "just dropped in!" note
-- [x] Host menu: full screen, remove a fish, corner tag on/off
+- [x] Host menu: full screen, remove a fish
 - [x] Keepsake: snapshot (PNG) and 15-second recording (MP4/WebM)
 
 ## Files

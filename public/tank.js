@@ -225,11 +225,6 @@
     setTimeout(() => t.remove(), 5200);
   }
 
-  function updateCount() {
-    $('fishCount').textContent = swimmers.size;
-    $('fishWord').textContent = 'fish';
-  }
-
   async function sync(initial = false) {
     let list;
     try {
@@ -259,7 +254,6 @@
     }
     if (changed) {
       for (const s of swimmers.values()) s.resize();
-      updateCount();
     }
   }
 
@@ -308,12 +302,6 @@
     else document.documentElement.requestFullscreen().catch(() => status('Full screen was blocked by the browser. Try F11.'));
   });
 
-  $('tagBtn').addEventListener('click', () => {
-    const tag = $('tag');
-    tag.hidden = !tag.hidden;
-    $('tagBtn').setAttribute('aria-pressed', String(!tag.hidden));
-  });
-
   // Remove mode: click a fish to take it out of the tank.
   const removeBtn = $('removeBtn');
   removeBtn.addEventListener('click', () => {
@@ -334,7 +322,6 @@
     s.leave();
     swimmers.delete(s.data.id);
     swimmers.forEach((o) => o.resize());
-    updateCount();
   }
 
   // ---------- keepsake: snapshot + short recording ----------

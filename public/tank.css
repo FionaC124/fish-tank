@@ -174,32 +174,6 @@ body.removing .tank .ts-fish { pointer-events: auto; }
 @keyframes toast-in { from { transform: translateY(-30px) rotate(-6deg); opacity: 0; } }
 @keyframes toast-out { to { transform: translateY(-20px) rotate(-1.5deg); opacity: 0; } }
 
-/* ---------- corner tag ---------- */
-.tag {
-  position: fixed;
-  left: 2.2vw;
-  bottom: 2.6vh;
-  z-index: 15;
-  background: var(--paper);
-  padding: 8px 14px 9px;
-  border-radius: 2px;
-  box-shadow: 0 14px 24px -10px rgba(8, 30, 18, .7);
-  transform: rotate(-1.2deg);
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-.tag[hidden] { display: none; }
-.tag-title { font-family: var(--serif); font-style: italic; font-size: clamp(20px, 1.6vw, 30px); line-height: 1; }
-.tag-count {
-  font-family: var(--mono);
-  font-size: clamp(10px, .75vw, 13px);
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--muted);
-}
-.tag-count b { color: var(--red); }
-
 /* ---------- host menu ---------- */
 .host {
   position: fixed;
@@ -249,8 +223,6 @@ body.mouse-awake .host, .host.open { opacity: 1; pointer-events: auto; }
 }
 .host-menu button:hover { background: var(--gold-soft); }
 .host-menu button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-#tagBtn[aria-pressed="true"] { background: none; color: var(--ink); }
-#tagBtn[aria-pressed="true"]::before { content: '✓ '; }
 
 .status {
   position: fixed;
