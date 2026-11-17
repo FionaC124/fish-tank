@@ -1,0 +1,12 @@
+{
+  "name": "cafe-fish-tank",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A digital fish tank for an at-home café: guests draw a fish, it swims in the tank.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
