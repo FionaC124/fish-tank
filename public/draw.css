@@ -479,12 +479,41 @@ input[type="range"]::-moz-range-thumb {
   text-align: right;
 }
 .stencil-label b { color: var(--chalk); font-weight: 700; }
-.stencils { display: flex; gap: 6px; }
+#stencilCount { opacity: .6; }
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  outline: none;
+}
+.carousel:focus-visible .car-window { box-shadow: 0 0 0 2px var(--gold); border-radius: 8px; }
+.car-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(241, 228, 200, .6);
+  background: rgba(251, 245, 232, .12);
+  color: var(--chalk);
+  font-size: 24px;
+  line-height: 1;
+  padding: 0 0 3px;
+  transition: background .12s, transform .12s;
+}
+.car-arrow:hover { background: var(--gold-soft); color: var(--ink); border-color: var(--ink); }
+.car-arrow:active { transform: scale(.92); }
+.car-window { overflow: hidden; padding: 6px 4px; }
+.car-track { display: flex; align-items: center; gap: 8px; }
+.car-track.from-right { animation: car-in-right .22s ease-out; }
+.car-track.from-left { animation: car-in-left .22s ease-out; }
+@keyframes car-in-right { from { transform: translateX(40px); opacity: .3; } }
+@keyframes car-in-left { from { transform: translateX(-40px); opacity: .3; } }
+
 .stencil {
   width: 54px;
-  height: 38px;
+  height: 36px;
   padding: 3px;
   flex: none;
+  opacity: .6;
   border-radius: 6px;
   border: 1.5px solid rgba(241, 228, 200, .25);
   background: rgba(251, 245, 232, .9);
@@ -509,11 +538,15 @@ input[type="range"]::-moz-range-thumb {
   letter-spacing: .1em;
   color: var(--muted);
 }
-.stencil:hover { transform: translateY(-2px) rotate(-2deg); }
-.stencil[aria-checked="true"] {
+.stencil:hover { opacity: .9; transform: translateY(-2px); }
+.stencil.current {
+  width: 78px;
+  height: 50px;
+  opacity: 1;
   background: var(--gold-soft);
   border: 2px solid var(--ink);
-  transform: translateY(-2px) rotate(-2deg);
+  transform: rotate(-2deg);
+  cursor: default;
 }
 
 /* ---------- stickers on the sheet ---------- */

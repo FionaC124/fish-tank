@@ -150,8 +150,12 @@
         <div class="sticker-hint" aria-hidden="true">drag to move · <b>↘</b> resize · <b>⟳</b> spin · <b>✕</b> remove</div>
       </div>
       <div class="stencil-row">
-        <span class="stencil-label">stencil<br><b id="stencilName">classic</b></span>
-        <div class="stencils" id="stencils" role="radiogroup" aria-label="Stencil"></div>
+        <span class="stencil-label">stencil<br><b id="stencilName">classic</b> <span id="stencilCount"></span></span>
+        <div class="carousel" id="stencilCarousel" aria-label="Stencil" tabindex="0">
+          <button class="car-arrow" id="stencilPrev" type="button" aria-label="Previous stencil">‹</button>
+          <div class="car-window"><div class="car-track" id="stencils"></div></div>
+          <button class="car-arrow" id="stencilNext" type="button" aria-label="Next stencil">›</button>
+        </div>
       </div>
     </section>
 
