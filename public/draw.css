@@ -61,23 +61,6 @@ body {
 }
 
 /* ---------- photo layer ---------- */
-/* Late-afternoon sun through blinds: soft bright bands that drift slowly. */
-.sun {
-  position: fixed;
-  inset: -25%;
-  z-index: 30;
-  pointer-events: none;
-  background: repeating-linear-gradient(-34deg,
-    transparent 0 70px,
-    rgba(255, 228, 160, .9) 90px 150px,
-    transparent 170px 230px);
-  filter: blur(14px);
-  mix-blend-mode: soft-light;
-  opacity: 1;
-  animation: sun-drift 18s ease-in-out infinite alternate;
-}
-@keyframes sun-drift { to { transform: translate(40px, -10px); } }
-
 /* A plant just out of frame, casting a blurry shadow. */
 .leaf-shadow {
   position: fixed;
@@ -657,7 +640,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sun, .leaf-shadow, .polaroid, .done-fish { animation: none; }
+  .leaf-shadow, .polaroid, .done-fish { animation: none; }
 }
 
 /* Smaller laptop screens */
