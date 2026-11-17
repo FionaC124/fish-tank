@@ -22,6 +22,28 @@ in a second browser window and drag it onto that screen (press F11 for full
 screen). If it's a different device on your Wi-Fi, use the
 `http://<your-ip>:3000/tank.html` address printed when the server starts.
 
+## On the day
+
+1. Run `npm start` on the laptop.
+2. Laptop at the door: open **http://localhost:3000/**.
+3. Kitchen monitor: open **http://localhost:3000/tank.html** (or the
+   `http://<your-ip>:3000/tank.html` address the server prints, if the monitor
+   is a different device on your Wi-Fi). Move the mouse and use the **⋯**
+   button in the bottom-right corner → *full screen*.
+
+New fish drop into the tank within a few seconds of being sent.
+
+### Host menu (⋯, bottom-right of the tank, appears when the mouse moves)
+
+- **full screen**: fills the monitor.
+- **remove a fish…**: then click any fish to take it out (asks first).
+- **save a snapshot** / **record 15 seconds**: the end-of-party keepsake. The
+  browser asks which tab to share: pick the tank tab. Files go to your
+  Downloads folder. These only work on the laptop that's running the server
+  (i.e. the `localhost` address); browsers block screen capture on plain
+  `http://<ip>` addresses.
+- **show corner tag**: hides/shows the little "café fish tank" label.
+
 ## Adding accessory photos
 
 Drop images into `public/stickers/` and refresh the drawing page. That's it.
@@ -53,8 +75,10 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 - [ ] Add the real accessory photos
 - [x] Name + message, send to the tank, "next guest" reset
 - [x] Server that saves fish to disk
-- [ ] Tank page: animated underwater scene, swimming fish, name labels, speech bubbles
-- [ ] Keepsake: snapshot / short recording of the full tank
+- [x] Tank page: realistic scene, fish swim/turn/tilt/wiggle, name tags, speech
+      bubbles, new fish drop in with a splash + "just dropped in!" note
+- [x] Host menu: full screen, remove a fish, corner tag on/off
+- [x] Keepsake: snapshot (PNG) and 15-second recording (MP4/WebM)
 
 ## Files
 
@@ -66,4 +90,5 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 - `public/stickers/` — accessory photos go here
 - `public/stickers.js` — placeholder stickers used until photos are added
 - `public/fonts/` — Instrument Serif, Space Grotesk, Space Mono (SIL Open Font License)
-- `public/tank.html` — placeholder tank (lists every saved fish for now)
+- `public/tank.html`, `tank.css`, `tank.js` — the tank page for the kitchen monitor
+- `public/fonts.css` — font setup shared by both pages

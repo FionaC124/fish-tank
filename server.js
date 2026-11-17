@@ -164,6 +164,17 @@ const server = http.createServer(async (req, res) => {
     if (p === '/api/stickers' && req.method === 'GET') return send(res, 200, listStickers());
     if (p === '/api/fish' && req.method === 'POST') return await createFish(req, res);
 
+    // Host removes a fish from the tank (its image file is kept, just in case).
+    if (p.startsWith('/api/fish/') && req.method === 'DELETE') {
+      const id = decodeURIComponent(p.slice('/api/fish/'.length));
+      const before = fishList.length;
+      fishList = fishList.filter((f) => f.id !== id);
+      if (fishList.length === before) return send(res, 404, { error: 'No such fish' });
+      saveFish(fishList);
+      console.log(`🫧  Removed fish ${id}`);
+      return send(res, 200, { ok: true });
+    }
+
     if (p.startsWith('/fish-images/') && req.method === 'GET') {
       const file = safeJoin(IMAGE_DIR, p.slice('/fish-images/'.length));
       return file ? serveFile(res, file) : send(res, 404, { error: 'Not found' });

@@ -1,0 +1,275 @@
+:root {
+  --ink: #1e2a5a;
+  --paper: #fbf5e8;
+  --gold: #e8a530;
+  --gold-soft: #f6d58a;
+  --red: #d8472e;
+  --muted: #7b6e5a;
+  --serif: 'Instrument Serif', 'Times New Roman', serif;
+  --sans: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Space Mono', ui-monospace, 'Courier New', monospace;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #1c3d31;
+  font-family: var(--sans);
+  color: var(--ink);
+  cursor: none; /* hidden until the mouse moves */
+}
+body.mouse-awake { cursor: default; }
+
+.tank { position: fixed; inset: 0; }
+
+/* ---------- a swimming fish ---------- */
+/* .fish moves every frame; .tilt leans with the swim; .flip turns it around;
+   the image wiggles. Name and bubble stay upright and unflipped. */
+.fish {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+  transition: opacity .6s;
+}
+.fish.leaving { opacity: 0; }
+.fish .tilt { will-change: transform; }
+.fish .flip { transition: transform .45s cubic-bezier(.45, 0, .25, 1); }
+.fish.facing-left .flip { transform: scaleX(-1); }
+.fish img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: 70% 50%;
+  animation: wiggle var(--wiggle, 1.4s) ease-in-out infinite alternate;
+  filter: drop-shadow(0 12px 10px rgba(8, 30, 18, .3));
+  -webkit-user-drag: none;
+}
+/* Fish further back are a little hazier. */
+.fish.far img { filter: drop-shadow(0 10px 8px rgba(8, 30, 18, .25)) brightness(.9) saturate(.85) blur(.4px); }
+@keyframes wiggle {
+  from { transform: rotate(-2.2deg) scaleY(1.015); }
+  to { transform: rotate(2.2deg) scaleY(.985); }
+}
+
+/* Labels layer: above every fish and plant. Each label sits at its fish's centre. */
+.labels { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+.fish-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  will-change: transform;
+  transition: opacity .6s;
+}
+.fish-label.leaving { opacity: 0; }
+.name {
+  position: absolute;
+  left: 0;
+  top: calc(var(--half, 40px) + 2px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: clamp(12px, 1vw, 17px);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: lowercase;
+  color: var(--paper);
+  background: rgba(20, 40, 30, .45);
+  backdrop-filter: blur(2px);
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+
+.bubble {
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--half, 40px) + 4px);
+  transform: translate(-50%, -10px) scale(.6);
+  transform-origin: 50% 100%;
+  width: max-content;
+  max-width: clamp(160px, 16vw, 300px);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(18px, 1.5vw, 28px);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--ink);
+  background: var(--paper);
+  padding: 8px 14px 9px;
+  border-radius: 18px;
+  box-shadow: 0 10px 20px -8px rgba(8, 30, 18, .5);
+  opacity: 0;
+  transition: opacity .35s, transform .35s cubic-bezier(.2, 1.4, .4, 1);
+  pointer-events: none;
+}
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  background: var(--paper);
+  transform: rotate(45deg);
+  border-radius: 0 0 4px 0;
+}
+.fish-label.talking .bubble { opacity: 1; transform: translate(-50%, -12px) scale(1); }
+
+/* Host "remove a fish" mode */
+body.removing .fish { cursor: pointer; pointer-events: auto; }
+body.removing .fish:hover img { outline: 3px dashed var(--red); outline-offset: 6px; }
+body.removing .tank .ts-fish { pointer-events: auto; }
+
+/* Splash bubbles when a fish drops in */
+.splash {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .95) 0 20%, rgba(255, 255, 255, .25) 45%, rgba(255, 255, 255, .06) 70%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .6);
+  pointer-events: none;
+  animation: splash 1.8s ease-out forwards;
+}
+@keyframes splash {
+  from { transform: translate(0, 0) scale(.4); opacity: 1; }
+  to { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
+}
+
+/* ---------- toast: "fee just dropped in!" ---------- */
+.toasts {
+  position: fixed;
+  top: 4vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 3px;
+  padding: 10px 22px 12px;
+  box-shadow: 0 18px 30px -12px rgba(8, 30, 18, .6);
+  font-family: var(--serif);
+  font-size: clamp(22px, 2vw, 36px);
+  transform: rotate(-1.5deg);
+  animation: toast-in .5s cubic-bezier(.2, 1.4, .4, 1), toast-out .5s ease-in 4.5s forwards;
+}
+.toast em { color: var(--red); }
+.toast small {
+  display: block;
+  font-family: var(--mono);
+  font-size: .42em;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+}
+@keyframes toast-in { from { transform: translateY(-30px) rotate(-6deg); opacity: 0; } }
+@keyframes toast-out { to { transform: translateY(-20px) rotate(-1.5deg); opacity: 0; } }
+
+/* ---------- corner tag ---------- */
+.tag {
+  position: fixed;
+  left: 2.2vw;
+  bottom: 2.6vh;
+  z-index: 15;
+  background: var(--paper);
+  padding: 8px 14px 9px;
+  border-radius: 2px;
+  box-shadow: 0 14px 24px -10px rgba(8, 30, 18, .7);
+  transform: rotate(-1.2deg);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.tag[hidden] { display: none; }
+.tag-title { font-family: var(--serif); font-style: italic; font-size: clamp(20px, 1.6vw, 30px); line-height: 1; }
+.tag-count {
+  font-family: var(--mono);
+  font-size: clamp(10px, .75vw, 13px);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+.tag-count b { color: var(--red); }
+
+/* ---------- host menu ---------- */
+.host {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+}
+body.mouse-awake .host, .host.open { opacity: 1; pointer-events: auto; }
+.host-toggle {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px -6px rgba(0, 0, 0, .5);
+}
+.host-menu {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border-radius: 6px;
+  padding: 6px;
+  box-shadow: 0 16px 30px -10px rgba(0, 0, 0, .6);
+}
+.host-menu[hidden] { display: none; }
+.host-menu button {
+  font: 700 13px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ink);
+  background: none;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.host-menu button:hover { background: var(--gold-soft); }
+.host-menu button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+#tagBtn[aria-pressed="true"] { background: none; color: var(--ink); }
+#tagBtn[aria-pressed="true"]::before { content: '✓ '; }
+
+.status {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 30;
+  background: var(--ink);
+  color: var(--paper);
+  font: 700 13px var(--mono);
+  letter-spacing: .06em;
+  padding: 10px 14px;
+  border-radius: 6px;
+}
+.status[hidden] { display: none; }
+
+/* While recording or taking a snapshot, hide all host UI. */
+body.capturing .host, body.capturing .status { display: none; }
+body.capturing { cursor: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fish img { animation: none; }
+}

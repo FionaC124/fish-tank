@@ -4,40 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fish Tank</title>
-  <style>
-    /* Placeholder until the real animated tank is built: shows every saved fish. */
-    body { margin: 0; min-height: 100vh; font-family: 'Trebuchet MS', system-ui, sans-serif;
-           background: linear-gradient(#5fc4e0, #1b6f9c); color: #fff; }
-    h1 { text-align: center; margin: 0; padding: 24px 16px 4px; }
-    p.note { text-align: center; margin: 0 0 16px; opacity: .85; }
-    .grid { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; padding: 16px; }
-    figure { margin: 0; text-align: center; }
-    figure img { max-width: 220px; max-height: 140px; display: block; margin: 0 auto 6px; }
-    figcaption b { display: block; font-size: 20px; }
-  </style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐠</text></svg>">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="tank-scene.css">
+  <link rel="stylesheet" href="tank.css">
 </head>
 <body>
-  <h1>🐠 The Tank</h1>
-  <p class="note">Placeholder: the swimming tank comes next. <span id="count"></span></p>
-  <div class="grid" id="grid"></div>
-  <script>
-    async function refresh() {
-      const fish = await fetch('/api/fish').then((r) => r.json()).catch(() => []);
-      document.getElementById('count').textContent = `${fish.length} fish so far.`;
-      const grid = document.getElementById('grid');
-      grid.replaceChildren(...fish.map((f) => {
-        const fig = document.createElement('figure');
-        const img = document.createElement('img');
-        img.src = f.image; img.alt = `${f.name}'s fish`;
-        const cap = document.createElement('figcaption');
-        const b = document.createElement('b'); b.textContent = f.name;
-        cap.append(b, f.message);
-        fig.append(img, cap);
-        return fig;
-      }));
-    }
-    refresh();
-    setInterval(refresh, 3000);
-  </script>
+  <div class="tank" id="tank"></div>
+  <div class="labels" id="labels"></div>
+
+  <!-- "fee just dropped in!" -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- Little paper tag in the corner -->
+  <div class="tag" id="tag">
+    <span class="tag-title">café fish tank</span>
+    <span class="tag-count"><b id="fishCount">0</b> <span id="fishWord">fish</span> swimming · draw yours at the door</span>
+  </div>
+
+  <!-- Host menu: appears when the mouse moves -->
+  <div class="host" id="host">
+    <div class="host-menu" id="hostMenu" hidden>
+      <button type="button" id="fullscreenBtn">full screen</button>
+      <button type="button" id="snapshotBtn">save a snapshot</button>
+      <button type="button" id="recordBtn">record 15 seconds</button>
+      <button type="button" id="removeBtn" aria-pressed="false">remove a fish…</button>
+      <button type="button" id="tagBtn" aria-pressed="true">show corner tag</button>
+    </div>
+    <button class="host-toggle" id="hostToggle" type="button" aria-label="Host menu" aria-expanded="false">⋯</button>
+  </div>
+  <div class="status" id="status" hidden></div>
+
+  <script src="tank-scene.js"></script>
+  <script src="tank.js"></script>
 </body>
 </html>
