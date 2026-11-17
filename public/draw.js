@@ -6,18 +6,19 @@
   const RESET_SECONDS = 20;
 
   const PRESETS = [
-    { hex: '#111111', name: 'ink' },
-    { hex: '#fbf3e4', name: 'cream' },
-    { hex: '#ff3b2f', name: 'cherry' },
-    { hex: '#ff8a1f', name: 'tangerine' },
-    { hex: '#ffd84d', name: 'butter' },
-    { hex: '#9cc95b', name: 'matcha' },
-    { hex: '#c6ff3d', name: 'acid' },
-    { hex: '#19b8d6', name: 'pool' },
-    { hex: '#2f4bff', name: 'cobalt' },
-    { hex: '#b9a2ff', name: 'lilac' },
-    { hex: '#ff8cc6', name: 'bubblegum' },
-    { hex: '#7a4a2e', name: 'mocha' },
+    { hex: '#1e2a5a', name: 'navy ink' },
+    { hex: '#161616', name: 'black' },
+    { hex: '#fbf5e8', name: 'paper' },
+    { hex: '#d8472e', name: 'tomato' },
+    { hex: '#ef8f7a', name: 'blush' },
+    { hex: '#e8a530', name: 'mustard' },
+    { hex: '#f2d64b', name: 'butter' },
+    { hex: '#7f9461', name: 'sage' },
+    { hex: '#4e5f34', name: 'olive' },
+    { hex: '#a9b8dc', name: 'sardine' },
+    { hex: '#4f8fbf', name: 'sea' },
+    { hex: '#8a4f7d', name: 'plum' },
+    { hex: '#a0612b', name: 'teak' },
     { hex: 'rainbow', name: 'rainbow' },
   ];
 
@@ -38,8 +39,8 @@
   const wheel = $('wheel');
 
   const state = {
-    colour: '#ff3b2f',
-    hsv: { h: 4, s: 0.82, v: 1 },
+    colour: '#1e2a5a',
+    hsv: { h: 228, s: 0.67, v: 0.35 },
     brush: 'crayon',
     size: Number(sizeSlider.value),
     erasing: false,
@@ -142,7 +143,7 @@
     brightness.style.setProperty('--full', hsvToHex({ h, s, v: 1 }));
     document.querySelectorAll('.swatch').forEach((el) =>
       el.setAttribute('aria-checked', String(el.dataset.colour === state.colour)));
-    stage.style.setProperty('--brush-colour', rainbow ? '#ff3b2f' : state.colour);
+    stage.style.setProperty('--brush-colour', rainbow ? '#d8472e' : state.colour);
     updateSizePreview();
     scheduleTextureRender();
   }
@@ -674,7 +675,7 @@
       el.setAttribute('aria-checked', String(el.dataset.brush === 'crayon')));
     state.size = 18;
     sizeSlider.value = 18;
-    setColour('#ff3b2f');
+    setColour('#1e2a5a');
     form.reset();
     $('msgCount').textContent = '0';
     formError.textContent = '';

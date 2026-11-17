@@ -8,21 +8,73 @@
   <link rel="stylesheet" href="draw.css">
 </head>
 <body>
-  <div class="caustics" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
+  <!-- Shared hand-drawn filters and doodle shapes -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- Wobbly edge, like a line drawn by hand -->
+      <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="3" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="5"/>
+      </filter>
+      <!-- Crayon: wobbly edge + speckled wax grain -->
+      <filter id="crayon" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="5" result="w"/>
+        <feDisplacementMap in="SourceGraphic" in2="w" scale="7" result="shape"/>
+        <feTurbulence type="fractalNoise" baseFrequency=".9 .5" numOctaves="2" seed="2" result="g"/>
+        <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.4 0 0 0 1.9" result="grain"/>
+        <feComposite in="shape" in2="grain" operator="in"/>
+      </filter>
+      <symbol id="star" viewBox="0 0 40 40">
+        <path d="M20 3 L24.5 15 L37 15.5 L27 23.5 L30.5 36 L20 28.5 L9.5 36 L13 23.5 L3 15.5 L15.5 15 Z"/>
+      </symbol>
+      <symbol id="sparkle" viewBox="0 0 40 40">
+        <path d="M20 2 V38 M2 20 H38 M8 8 L32 32 M32 8 L8 32" fill="none" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Photo layer: sunlight through blinds + a plant's shadow -->
+  <div class="sun" aria-hidden="true"></div>
+  <svg class="leaf-shadow" viewBox="0 0 400 400" aria-hidden="true">
+    <path d="M-40 -30 C 120 -10, 230 60, 250 170 C 180 150, 140 190, 120 240 C 60 170, -20 150, -60 160 Z"/>
+    <path d="M60 230 C 140 250, 210 320, 200 420 C 150 370, 80 380, 20 400 C 40 340, 30 280, 60 230 Z"/>
+    <path d="M-60 180 C 0 200, 40 260, 30 330 C -10 300, -40 300, -70 310 Z"/>
+  </svg>
+
+  <!-- Drawing layer: little doodles scattered on the table -->
+  <div class="doodles" aria-hidden="true">
+    <svg class="d star-o red" style="left:31%;top:2%;--r:-12deg"><use href="#star"/></svg>
+    <svg class="d star-f gold" style="left:66%;top:9%;--r:14deg"><use href="#star"/></svg>
+    <svg class="d sparkle navy" style="left:24%;top:11%"><use href="#sparkle"/></svg>
+    <svg class="d sparkle gold sm" style="left:74%;top:3%"><use href="#sparkle"/></svg>
+    <svg class="d star-f gold sm" style="left:2%;top:94%;--r:-8deg"><use href="#star"/></svg>
+    <svg class="d star-o red" style="left:47%;top:92%;--r:20deg"><use href="#star"/></svg>
+    <svg class="d sparkle navy sm" style="left:58%;top:95%"><use href="#sparkle"/></svg>
+    <svg class="d star-f gold" style="left:93%;top:93%;--r:6deg"><use href="#star"/></svg>
+    <span class="dot red" style="left:28%;top:7%"></span>
+    <span class="dot sage" style="left:62%;top:4%"></span>
+    <span class="dot navy" style="left:70%;top:13%"></span>
+    <span class="dot gold" style="left:36%;top:96%"></span>
+    <span class="dot sage" style="left:66%;top:93%"></span>
+    <span class="dot red" style="left:12%;top:96%"></span>
+    <span class="dot navy" style="left:84%;top:97%"></span>
+  </div>
 
   <header class="top">
     <div class="brand">
-      <span class="stamp">café fish tank</span>
-      <span class="stamp ghost">vol. 01</span>
+      <span class="label">café fish tank</span>
+      <span class="label sub">an afternoon aquarium · vol. 01</span>
     </div>
-    <h1>draw your <em>fish</em></h1>
-    <ol class="steps">
-      <li><b>01</b> draw it</li>
-      <li><b>02</b> dress it</li>
-      <li><b>03</b> sign it</li>
-      <li><b>04</b> drop it in</li>
-    </ol>
+    <h1>
+      draw your
+      <span class="burst-word">
+        <svg class="burst" viewBox="0 0 192 120" aria-hidden="true">
+          <path d="M189 60 L160 70 L178 90 L128 86 L129 115 L103 93 L70 112 L68 85 L34 91 L40 72 L2 59 L42 49 L27 31 L66 30 L74 13 L99 28 L128 2 L135 29 L168 33 L154 49 Z"/>
+        </svg>
+        <em>fish</em>
+      </span>
+    </h1>
+    <div class="seal" aria-label="sakana, fish">さかな</div>
   </header>
 
   <main class="layout">
@@ -34,8 +86,7 @@
           <canvas id="wheel" width="300" height="300" aria-label="Colour wheel"></canvas>
           <div class="wheel-dot" id="wheelDot"></div>
         </div>
-        <input class="brightness" id="brightness" type="range" min="10" max="100" value="100"
-               aria-label="Brightness" orient="vertical">
+        <input class="brightness" id="brightness" type="range" min="10" max="100" value="100" aria-label="Brightness">
       </div>
       <div class="swatches" id="swatches" role="radiogroup" aria-label="Colour presets"></div>
 
@@ -54,11 +105,14 @@
       </div>
     </section>
 
-    <!-- Middle: paper taped onto the pool -->
+    <!-- Middle: the drawing sheet -->
     <section class="stage-wrap" aria-label="Drawing area">
       <div class="stage" id="stage">
         <span class="tape tl" aria-hidden="true"></span>
         <span class="tape br" aria-hidden="true"></span>
+        <svg class="stage-burst" viewBox="0 0 720 440" aria-hidden="true">
+          <path d="M619 215 L512 248 L604 313 L474 318 L464 385 L383 328 L333 392 L287 338 L148 371 L223 274 L77 280 L172 217 L116 164 L210 154 L187 87 L295 126 L332 11 L384 112 L495 46 L489 129 L597 119 L523 189 Z"/>
+        </svg>
         <svg class="guide" viewBox="0 0 720 440" aria-hidden="true">
           <path d="M150 220 C 220 90, 470 80, 560 220 C 470 360, 220 350, 150 220 Z" />
           <path d="M150 220 L 70 140 L 95 220 L 70 300 Z" />
@@ -93,16 +147,22 @@
     </section>
   </main>
 
-  <!-- Shown after a fish is sent -->
+  <!-- Shown after a fish is sent: a polaroid of the fish in a sunlit tank -->
   <div class="done" id="done" hidden>
     <div class="polaroid">
-      <div class="photo"><img id="donePreview" alt="Your fish"></div>
+      <div class="photo">
+        <div class="tank-light" aria-hidden="true"></div>
+        <img id="donePreview" alt="Your fish">
+        <div class="gravel" aria-hidden="true"></div>
+      </div>
       <p class="caption"><span id="doneName"></span>'s fish is in!</p>
       <p class="sub">go say hi in the kitchen</p>
       <button class="send-btn" id="nextBtn" type="button">next guest →</button>
       <p class="done-auto">resets in <span id="doneCountdown">20</span>s</p>
     </div>
   </div>
+
+  <div class="grain" aria-hidden="true"></div>
 
   <script src="stickers.js"></script>
   <script src="brushes.js"></script>
