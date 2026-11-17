@@ -369,7 +369,7 @@ input[type="range"]::-moz-range-thumb {
 .stage-wrap { min-width: 0; }
 .stage {
   position: relative;
-  width: min(100%, calc((100vh - 165px) * 720 / 440));
+  width: min(100%, calc((100vh - 200px) * 720 / 440));
   aspect-ratio: 720 / 440;
   margin: 0 auto;
   border-radius: 2px;
@@ -426,7 +426,7 @@ input[type="range"]::-moz-range-thumb {
   opacity: .5;
   transition: opacity .3s;
 }
-.stage.has-ink .guide { opacity: 0; }
+.stage.has-ink .guide { opacity: .28; }
 
 .direction-hint {
   position: absolute;
@@ -440,15 +440,81 @@ input[type="range"]::-moz-range-thumb {
   pointer-events: none;
 }
 
-.stage-tip {
-  margin: 18px 0 0;
-  text-align: center;
-  color: rgba(241, 228, 200, .8);
+/* Shown on the sheet only while a sticker is selected. */
+.sticker-hint {
+  position: absolute;
+  left: 18px;
+  bottom: 12px;
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: .06em;
+  letter-spacing: .04em;
+  color: var(--ink);
+  background: var(--gold-soft);
+  padding: 3px 8px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
 }
-.stage-tip b { color: var(--gold); }
+.sticker-hint b { color: var(--red); }
+.stage.sticker-selected .sticker-hint { opacity: 1; }
+.stage.sticker-selected .direction-hint { opacity: 0; }
+
+/* ---------- stencil strip ---------- */
+.stencil-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 26px;
+}
+.stencil-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: rgba(241, 228, 200, .7);
+  line-height: 1.35;
+  min-width: 70px;
+  text-align: right;
+}
+.stencil-label b { color: var(--chalk); font-weight: 700; }
+.stencils { display: flex; gap: 6px; }
+.stencil {
+  width: 54px;
+  height: 38px;
+  padding: 3px;
+  flex: none;
+  border-radius: 6px;
+  border: 1.5px solid rgba(241, 228, 200, .25);
+  background: rgba(251, 245, 232, .9);
+  box-shadow: 0 6px 10px -4px rgba(10, 4, 0, .55);
+  display: grid;
+  place-items: center;
+  transition: transform .12s;
+}
+.stencil svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.stencil.none span {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+.stencil:hover { transform: translateY(-2px) rotate(-2deg); }
+.stencil[aria-checked="true"] {
+  background: var(--gold-soft);
+  border: 2px solid var(--ink);
+  transform: translateY(-2px) rotate(-2deg);
+}
 
 /* ---------- stickers on the sheet ---------- */
 .sticker-layer { pointer-events: none; z-index: 2; }

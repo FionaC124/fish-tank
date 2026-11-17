@@ -44,6 +44,8 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 
 - [x] Drawing page: colour wheel + presets + rainbow, crayon / marker / spray /
       glitter brushes, size slider, eraser, undo, clear
+- [x] Stencils to trace (classic, sardine, puffer, angelfish, goldfish, betta,
+      shark, chubby) or none
 - [x] Accessory stickers from photos (auto die-cut border): drag, resize, rotate, remove
 - [x] Look: paper scraps on a dark wood desk with crayon doodles, sunlight through
       blinds, leaf shadow, film grain, bundled fonts
@@ -60,6 +62,7 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 - `public/index.html`, `draw.css`, `draw.js` — the drawing page
 - `public/brushes.js` — the brush textures (crayon, marker, spray, glitter)
 - `public/tank-scene.js`, `tank-scene.css` — the realistic aquarium (reused by the tank page)
+- `public/stencils.js` — the fish outlines guests can trace (add more here)
 - `public/stickers/` — accessory photos go here
 - `public/stickers.js` — placeholder stickers used until photos are added
 - `public/fonts/` — Instrument Serif, Space Grotesk, Space Mono (SIL Open Font License)

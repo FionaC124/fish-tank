@@ -228,6 +228,35 @@
     stage.classList.toggle('erasing', on);
   }
 
+  // ---------- stencils ----------
+  const DEFAULT_STENCIL = 'classic';
+
+  function buildStencils() {
+    const wrap = $('stencils');
+    for (const st of window.STENCILS) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'stencil' + (st.id === 'none' ? ' none' : '');
+      b.dataset.stencil = st.id;
+      b.title = st.label;
+      b.setAttribute('role', 'radio');
+      b.setAttribute('aria-label', `${st.label} stencil`);
+      b.innerHTML = st.id === 'none'
+        ? '<span>none</span>'
+        : `<svg viewBox="0 0 720 440" aria-hidden="true">${st.svg}</svg>`;
+      b.addEventListener('click', () => setStencil(st.id));
+      wrap.appendChild(b);
+    }
+  }
+
+  function setStencil(id) {
+    const st = window.STENCILS.find((x) => x.id === id) || window.STENCILS[0];
+    $('guide').innerHTML = st.svg;
+    $('stencilName').textContent = st.label;
+    document.querySelectorAll('.stencil').forEach((el) =>
+      el.setAttribute('aria-checked', String(el.dataset.stencil === st.id)));
+  }
+
   // ---------- history (undo covers both drawing and stickers) ----------
   function pushHistory() {
     state.history.push({
@@ -476,6 +505,7 @@
 
   function renderStickers() {
     stickerLayer.replaceChildren();
+    stage.classList.toggle('sticker-selected', state.selected !== null);
     for (const s of state.stickers) {
       const def = stickerDefs[s.type];
       if (!def) continue;
@@ -683,6 +713,7 @@
     state.size = 18;
     sizeSlider.value = 18;
     setColour('#1e2a5a');
+    setStencil(DEFAULT_STENCIL);
     form.reset();
     $('msgCount').textContent = '0';
     formError.textContent = '';
@@ -718,6 +749,8 @@
   paintWheel();
   buildSwatches();
   buildTextures();
+  buildStencils();
+  setStencil(DEFAULT_STENCIL);
   setColour(state.colour);
   loadStickers();
 })();
