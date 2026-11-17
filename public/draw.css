@@ -61,23 +61,6 @@ body {
 }
 
 /* ---------- photo layer ---------- */
-/* A plant just out of frame, casting a blurry shadow. */
-.leaf-shadow {
-  position: fixed;
-  left: -40px;
-  top: -40px;
-  width: min(46vw, 560px);
-  z-index: 31;
-  pointer-events: none;
-  fill: rgba(60, 40, 12, .55);
-  filter: blur(16px);
-  mix-blend-mode: multiply;
-  opacity: .5;
-  transform-origin: 0 0;
-  animation: sway 9s ease-in-out infinite alternate;
-}
-@keyframes sway { to { transform: rotate(2.5deg) translate(6px, 4px); } }
-
 /* Film grain over everything. */
 .grain {
   position: fixed;
@@ -388,33 +371,6 @@ input[type="range"]::-moz-range-thumb {
   height: 100%;
 }
 .stage canvas { touch-action: none; }
-
-/* Washi tape holding the sheet down. */
-.tape {
-  position: absolute;
-  z-index: 3;
-  width: 120px;
-  height: 30px;
-  pointer-events: none;
-  box-shadow: 0 1px 2px rgba(80, 52, 14, .2);
-  clip-path: polygon(3% 0, 97% 5%, 100% 45%, 97% 100%, 2% 95%, 0 55%);
-}
-.tape.tl {
-  top: -12px;
-  left: -34px;
-  transform: rotate(-36deg);
-  background:
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, .3) 0 5px, transparent 5px 11px),
-    rgba(216, 71, 46, .62);
-}
-.tape.br {
-  bottom: -12px;
-  right: -34px;
-  transform: rotate(-36deg);
-  background:
-    radial-gradient(circle, rgba(255, 255, 255, .45) 2px, transparent 2.5px) 0 0 / 10px 10px,
-    rgba(127, 148, 97, .7);
-}
 
 .guide {
   pointer-events: none;
@@ -739,7 +695,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .leaf-shadow, .polaroid, .done-fish { animation: none; }
+  .polaroid, .done-fish { animation: none; }
 }
 
 /* Smaller laptop screens */
