@@ -1,0 +1,118 @@
+/* Realistic planted aquarium. See tank-scene.js. */
+.tank-scene {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #2c5a48;
+}
+.tank-scene .ts-water,
+.tank-scene .ts-rays,
+.tank-scene .ts-layer,
+.tank-scene .ts-surface,
+.tank-scene .ts-caustics,
+.tank-scene .ts-grain,
+.tank-scene .ts-glass {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.tank-scene .ts-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Water: bright near the lamp, deep green toward the back and bottom. */
+.ts-water {
+  background:
+    radial-gradient(70% 55% at 55% 0%, rgba(232, 246, 210, .75), transparent 70%),
+    radial-gradient(60% 50% at 50% 55%, rgba(120, 170, 130, .35), transparent 75%),
+    linear-gradient(180deg, #a9cfae 0%, #74a68a 30%, #3f7563 62%, #234c3d 100%);
+}
+
+/* Light shafts from the lamp, swaying slowly. */
+.ts-rays {
+  inset: -10% -20% 0;
+  background: repeating-conic-gradient(from 168deg at 52% -15%,
+    transparent 0deg 3deg,
+    rgba(255, 252, 225, .22) 4deg 5.5deg,
+    transparent 6.5deg 9deg);
+  filter: blur(6px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, .5) 45%, transparent 85%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, .5) 45%, transparent 85%);
+  mix-blend-mode: screen;
+  transform-origin: 52% 0;
+  animation: ts-rays 11s ease-in-out infinite alternate;
+}
+@keyframes ts-rays { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+
+/* Haze between the back plants and the fish, for depth. */
+.ts-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(150, 200, 170, .18), rgba(40, 90, 70, .12));
+}
+
+.ts-fish { z-index: 1; }
+.ts-front { z-index: 2; }
+.ts-bubbles { z-index: 3; }
+
+.ts-bubble {
+  position: absolute;
+  bottom: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .95) 0 18%, rgba(255, 255, 255, .25) 40%, rgba(255, 255, 255, .08) 70%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55);
+  animation: ts-rise linear infinite;
+}
+@keyframes ts-rise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  8% { opacity: 1; }
+  50% { transform: translate(var(--sway), -55vh); }
+  90% { opacity: .9; }
+  100% { transform: translate(0, -110vh); opacity: 0; }
+}
+
+/* The water line: a bright, softly rippling band at the top. */
+.ts-surface {
+  z-index: 4;
+  bottom: auto;
+  height: 9%;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='60'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .2' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 .95 1.6 0 0 0 -.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E") 0 0 / 400px 100%,
+    linear-gradient(180deg, rgba(255, 255, 240, .5), rgba(255, 255, 240, .08) 75%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent);
+  mask-image: linear-gradient(180deg, #000 40%, transparent);
+  animation: ts-surface 9s linear infinite;
+}
+@keyframes ts-surface { to { background-position: 400px 0, 0 0; } }
+
+/* Rippling caustic light on the floor and plants. */
+.tank-scene .ts-caustics {
+  z-index: 3;
+  inset: 62% 0 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='c' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018 .024' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='table' tableValues='0 0 0 0 .3 1 .3 0 0 0 0'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 .9 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E") 0 0 / 360px 360px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 60%);
+  mask-image: linear-gradient(180deg, transparent, #000 60%);
+  mix-blend-mode: soft-light;
+  opacity: .55;
+  animation: ts-caustics 16s linear infinite;
+}
+@keyframes ts-caustics { to { background-position: 360px 180px; } }
+
+/* A touch of camera grain. */
+.ts-grain {
+  z-index: 6;
+  opacity: .1;
+  mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* Front glass: soft reflections and darker edges. */
+.ts-glass {
+  z-index: 5;
+  background:
+    linear-gradient(112deg, transparent 0 6%, rgba(255, 255, 255, .14) 6% 11%, transparent 11% 13%, rgba(255, 255, 255, .07) 13% 15%, transparent 15%),
+    radial-gradient(120% 100% at 50% 45%, transparent 55%, rgba(5, 25, 15, .45) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ts-rays, .ts-bubble, .ts-surface, .ts-caustics { animation: none; }
+}

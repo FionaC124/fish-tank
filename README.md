@@ -45,7 +45,9 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 - [x] Drawing page: colour wheel + presets + rainbow, crayon / marker / spray /
       glitter brushes, size slider, eraser, undo, clear
 - [x] Accessory stickers from photos (auto die-cut border): drag, resize, rotate, remove
-- [x] Look: pool tiles with light ripples, film grain, paper + ink panels, bundled fonts
+- [x] Look: paper scraps on a dark wood desk with crayon doodles, sunlight through
+      blinds, leaf shadow, film grain, bundled fonts
+- [x] Realistic planted-tank scene (used in the "your fish is in" polaroid)
 - [ ] Add the real accessory photos
 - [x] Name + message, send to the tank, "next guest" reset
 - [x] Server that saves fish to disk
@@ -57,6 +59,7 @@ fresh tank for a new event, stop the server and delete the `data/` folder.
 - `server.js` — tiny no-dependency server and fish storage
 - `public/index.html`, `draw.css`, `draw.js` — the drawing page
 - `public/brushes.js` — the brush textures (crayon, marker, spray, glitter)
+- `public/tank-scene.js`, `tank-scene.css` — the realistic aquarium (reused by the tank page)
 - `public/stickers/` — accessory photos go here
 - `public/stickers.js` — placeholder stickers used until photos are added
 - `public/fonts/` — Instrument Serif, Space Grotesk, Space Mono (SIL Open Font License)

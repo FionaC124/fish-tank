@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Draw Your Fish</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐟</text></svg>">
+  <link rel="stylesheet" href="tank-scene.css">
   <link rel="stylesheet" href="draw.css">
 </head>
 <body>
@@ -27,6 +28,25 @@
       <symbol id="star" viewBox="0 0 40 40">
         <path d="M20 3 L24.5 15 L37 15.5 L27 23.5 L30.5 36 L20 28.5 L9.5 36 L13 23.5 L3 15.5 L15.5 15 Z"/>
       </symbol>
+      <symbol id="fish" viewBox="0 0 64 36">
+        <path d="M5 18 C 15 4, 38 3, 47 18 C 38 32, 15 32, 5 18 Z M47 18 L60 7 L57 18 L60 29 Z M15 12 Q 19 18 15 24" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="38" cy="15" r="2.2" stroke="none" class="fill"/>
+      </symbol>
+      <symbol id="seaweed" viewBox="0 0 34 64">
+        <path d="M12 62 C 2 50, 22 42, 12 30 C 4 20, 20 12, 13 2 M22 62 C 30 52, 16 44, 25 34 C 32 26, 22 20, 27 12" fill="none" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="leaf" viewBox="0 0 52 56">
+        <path d="M26 52 C 6 46, 1 22, 13 10 C 19 4, 26 8, 26 13 C 26 8, 33 4, 39 10 C 51 22, 46 46, 26 52 Z M26 13 V54 M26 23 L13 17 M26 33 L10 31 M26 43 L14 44 M26 23 L39 17 M26 33 L42 31 M26 43 L38 44" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="bubbles" viewBox="0 0 30 44">
+        <circle cx="11" cy="34" r="7" fill="none"/><circle cx="21" cy="18" r="4.5" fill="none"/><circle cx="12" cy="6" r="2.8" fill="none"/>
+      </symbol>
+      <symbol id="shell" viewBox="0 0 44 36">
+        <path d="M22 33 L4 15 C 8 3, 36 3, 40 15 Z M22 33 L11 8 M22 33 L22 5 M22 33 L33 8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="wave" viewBox="0 0 60 16">
+        <path d="M2 10 C 8 2, 14 2, 20 10 S 32 18, 39 10 S 51 2, 58 10" fill="none" stroke-linecap="round"/>
+      </symbol>
       <symbol id="sparkle" viewBox="0 0 40 40">
         <path d="M20 2 V38 M2 20 H38 M8 8 L32 32 M32 8 L8 32" fill="none" stroke-linecap="round"/>
       </symbol>
@@ -43,21 +63,36 @@
 
   <!-- Drawing layer: little doodles scattered on the table -->
   <div class="doodles" aria-hidden="true">
-    <svg class="d star-o red" style="left:31%;top:2%;--r:-12deg"><use href="#star"/></svg>
-    <svg class="d star-f gold" style="left:66%;top:9%;--r:14deg"><use href="#star"/></svg>
-    <svg class="d sparkle navy" style="left:24%;top:11%"><use href="#sparkle"/></svg>
-    <svg class="d sparkle gold sm" style="left:74%;top:3%"><use href="#sparkle"/></svg>
-    <svg class="d star-f gold sm" style="left:2%;top:94%;--r:-8deg"><use href="#star"/></svg>
-    <svg class="d star-o red" style="left:47%;top:92%;--r:20deg"><use href="#star"/></svg>
-    <svg class="d sparkle navy sm" style="left:58%;top:95%"><use href="#sparkle"/></svg>
-    <svg class="d star-f gold" style="left:93%;top:93%;--r:6deg"><use href="#star"/></svg>
-    <span class="dot red" style="left:28%;top:7%"></span>
-    <span class="dot sage" style="left:62%;top:4%"></span>
-    <span class="dot navy" style="left:70%;top:13%"></span>
-    <span class="dot gold" style="left:36%;top:96%"></span>
-    <span class="dot sage" style="left:66%;top:93%"></span>
-    <span class="dot red" style="left:12%;top:96%"></span>
-    <span class="dot navy" style="left:84%;top:97%"></span>
+    <!-- top edge -->
+    <svg class="d fish cream" style="left:22%;top:3%;--r:-8deg"><use href="#fish"/></svg>
+    <svg class="d star-o red" style="left:31%;top:9%;--r:-12deg"><use href="#star"/></svg>
+    <svg class="d sparkle cream sm" style="left:35%;top:2%"><use href="#sparkle"/></svg>
+    <svg class="d bubbles blue" style="left:64%;top:2%"><use href="#bubbles"/></svg>
+    <svg class="d star-f gold" style="left:69%;top:9%;--r:14deg"><use href="#star"/></svg>
+    <svg class="d wave sage" style="left:74%;top:4%;--r:-6deg"><use href="#wave"/></svg>
+    <svg class="d sparkle gold sm" style="left:81%;top:10%"><use href="#sparkle"/></svg>
+    <span class="dot red" style="left:27%;top:12%"></span>
+    <span class="dot sage" style="left:61%;top:11%"></span>
+    <!-- bottom edge -->
+    <svg class="d seaweed sage" style="left:1.5%;top:84%"><use href="#seaweed"/></svg>
+    <svg class="d star-f gold sm" style="left:5%;top:94%;--r:-8deg"><use href="#star"/></svg>
+    <svg class="d shell cream" style="left:11%;top:91%;--r:10deg"><use href="#shell"/></svg>
+    <svg class="d fish blue flip" style="left:19%;top:88%;--r:6deg"><use href="#fish"/></svg>
+    <svg class="d bubbles cream sm" style="left:27%;top:89%"><use href="#bubbles"/></svg>
+    <svg class="d leaf sage" style="left:33%;top:87%;--r:-18deg"><use href="#leaf"/></svg>
+    <svg class="d star-o red" style="left:41%;top:93%;--r:20deg"><use href="#star"/></svg>
+    <svg class="d wave blue" style="left:47%;top:90%"><use href="#wave"/></svg>
+    <svg class="d fish gold" style="left:55%;top:89%;--r:-4deg"><use href="#fish"/></svg>
+    <svg class="d sparkle cream sm" style="left:62%;top:95%"><use href="#sparkle"/></svg>
+    <svg class="d seaweed blue" style="left:67%;top:85%"><use href="#seaweed"/></svg>
+    <svg class="d shell red" style="left:73%;top:92%;--r:-12deg"><use href="#shell"/></svg>
+    <svg class="d fish cream flip" style="left:80%;top:87%;--r:8deg"><use href="#fish"/></svg>
+    <svg class="d leaf sage" style="left:89%;top:86%;--r:24deg"><use href="#leaf"/></svg>
+    <svg class="d star-f gold" style="left:95%;top:93%;--r:6deg"><use href="#star"/></svg>
+    <span class="dot gold" style="left:37%;top:97%"></span>
+    <span class="dot cream" style="left:52%;top:96%"></span>
+    <span class="dot red" style="left:15%;top:97%"></span>
+    <span class="dot blue" style="left:85%;top:96%"></span>
   </div>
 
   <header class="top">
@@ -110,9 +145,6 @@
       <div class="stage" id="stage">
         <span class="tape tl" aria-hidden="true"></span>
         <span class="tape br" aria-hidden="true"></span>
-        <svg class="stage-burst" viewBox="0 0 720 440" aria-hidden="true">
-          <path d="M619 215 L512 248 L604 313 L474 318 L464 385 L383 328 L333 392 L287 338 L148 371 L223 274 L77 280 L172 217 L116 164 L210 154 L187 87 L295 126 L332 11 L384 112 L495 46 L489 129 L597 119 L523 189 Z"/>
-        </svg>
         <svg class="guide" viewBox="0 0 720 440" aria-hidden="true">
           <path d="M150 220 C 220 90, 470 80, 560 220 C 470 360, 220 350, 150 220 Z" />
           <path d="M150 220 L 70 140 L 95 220 L 70 300 Z" />
@@ -150,11 +182,7 @@
   <!-- Shown after a fish is sent: a polaroid of the fish in a sunlit tank -->
   <div class="done" id="done" hidden>
     <div class="polaroid">
-      <div class="photo">
-        <div class="tank-light" aria-hidden="true"></div>
-        <img id="donePreview" alt="Your fish">
-        <div class="gravel" aria-hidden="true"></div>
-      </div>
+      <div class="photo" id="donePhoto"></div>
       <p class="caption"><span id="doneName"></span>'s fish is in!</p>
       <p class="sub">go say hi in the kitchen</p>
       <button class="send-btn" id="nextBtn" type="button">next guest →</button>
@@ -166,6 +194,7 @@
 
   <script src="stickers.js"></script>
   <script src="brushes.js"></script>
+  <script src="tank-scene.js"></script>
   <script src="draw.js"></script>
 </body>
 </html>

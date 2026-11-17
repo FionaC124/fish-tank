@@ -646,9 +646,16 @@
   // ---------- success screen + reset for next guest ----------
   let countdown = null;
 
+  // The polaroid shows the fish swimming in the realistic tank scene.
+  const doneScene = TankScene.mount($('donePhoto'), { bubbleCount: 10 });
+  const donePreview = new Image();
+  donePreview.className = 'done-fish';
+  donePreview.alt = 'Your fish';
+  doneScene.fishLayer.appendChild(donePreview);
+
   function showDone(name, image) {
     $('doneName').textContent = name;
-    $('donePreview').src = image;
+    donePreview.src = image;
     $('done').hidden = false;
     let left = RESET_SECONDS;
     $('doneCountdown').textContent = left;

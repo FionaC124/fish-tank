@@ -25,15 +25,19 @@
   --red: #d8472e;       /* tomato */
   --sage: #7f9461;
   --muted: #7b6e5a;
+  --chalk: #f1e4c8;     /* cream doodles on the desk */
+  --sardine: #a9b8dc;
 
   --serif: 'Instrument Serif', 'Times New Roman', serif;
   --sans: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --mono: 'Space Mono', ui-monospace, 'Courier New', monospace;
 
   /* Real-world shadows: paper scraps resting on a sunlit table */
-  --lift: 0 1px 1px rgba(80, 52, 14, .12), 0 6px 12px -4px rgba(80, 52, 14, .28),
-          0 22px 40px -18px rgba(80, 52, 14, .5);
+  --lift: 0 1px 1px rgba(15, 6, 0, .25), 0 8px 14px -4px rgba(15, 6, 0, .45),
+          0 26px 44px -16px rgba(15, 6, 0, .7);
 
+  --wood-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='172'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0025 .19' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .13 0 0 0 0 .06 0 0 0 0 .02 1.9 0 0 0 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+  --wood-figure: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='344'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='turbulence' baseFrequency='.0012 .022' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .85 0 0 0 0 .55 0 0 0 0 .3 .9 0 0 0 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.35'/%3E%3C/svg%3E");
   --paper-tex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .3 0 0 0 0 .15 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
 }
 
@@ -49,11 +53,19 @@ body {
   user-select: none;
   -webkit-user-select: none;
   overflow-x: hidden;
+  /* Dark walnut desk: fine grain, broad figure, plank seams, warm light from the window. */
   background:
-    radial-gradient(90% 80% at 85% 0%, rgba(255, 226, 160, .55), transparent 65%),
-    radial-gradient(70% 70% at 0% 100%, rgba(120, 84, 30, .22), transparent 70%),
-    var(--paper-tex),
-    var(--wall);
+    radial-gradient(90% 75% at 88% 0%, rgba(255, 196, 110, .32), transparent 65%),
+    radial-gradient(80% 80% at 0% 100%, rgba(10, 4, 0, .55), transparent 70%),
+    repeating-linear-gradient(180deg,
+      transparent 0 166px,
+      rgba(20, 9, 2, .75) 166px 168px,
+      rgba(255, 210, 160, .07) 168px 170px,
+      transparent 170px 172px),
+    var(--wood-grain),
+    var(--wood-figure),
+    linear-gradient(180deg, #5d3a22 0 172px, #66412a 172px 344px, #573520 344px 516px, #62402a 516px 688px, #5a3822 688px);
+  background-size: auto, auto, auto, 900px 172px, 1400px 344px, 100% 860px;
   background-attachment: fixed;
 }
 
@@ -70,7 +82,7 @@ body {
     transparent 170px 230px);
   filter: blur(14px);
   mix-blend-mode: soft-light;
-  opacity: .85;
+  opacity: 1;
   animation: sun-drift 18s ease-in-out infinite alternate;
 }
 @keyframes sun-drift { to { transform: translate(40px, -10px); } }
@@ -105,6 +117,7 @@ body {
 
 /* ---------- drawing layer: doodles ---------- */
 .doodles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+/* Crayon doodles on the desk: stars, fish, plants, bubbles, shells. */
 .d {
   position: absolute;
   width: 30px;
@@ -112,19 +125,31 @@ body {
   transform: rotate(var(--r, 0deg));
   filter: url(#rough);
   overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: .88;
 }
 .d.sm { width: 18px; height: 18px; }
-.star-o { fill: none; stroke-width: 2.6; stroke-linejoin: round; }
-.star-o.red { stroke: var(--red); }
-.star-f.gold { fill: var(--gold); }
-.sparkle { stroke-width: 2.4; }
-.sparkle.navy { stroke: var(--ink); }
-.sparkle.gold { stroke: var(--gold); }
-.dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; }
-.dot.red { background: var(--red); }
-.dot.sage { background: var(--sage); }
-.dot.navy { background: var(--ink); }
-.dot.gold { background: var(--gold); }
+.d.fish { width: 62px; height: 35px; stroke-width: 2.2; }
+.d.fish .fill, .d.fish circle { fill: currentColor; }
+.d.flip { transform: rotate(var(--r, 0deg)) scaleX(-1); }
+.d.seaweed { width: 32px; height: 60px; }
+.d.leaf { width: 46px; height: 50px; stroke-width: 2; }
+.d.bubbles { width: 24px; height: 36px; stroke-width: 2; }
+.d.bubbles.sm { width: 16px; height: 24px; }
+.d.shell { width: 38px; height: 31px; }
+.d.wave { width: 56px; height: 15px; }
+.d.star-f { fill: currentColor; stroke: none; }
+.cream { color: var(--chalk); }
+.gold { color: var(--gold); }
+.red { color: #ef6a4c; }
+.sage { color: #a9c27f; }
+.blue { color: var(--sardine); }
+.navy { color: var(--ink); }
+.dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: currentColor; opacity: .9; }
 
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
@@ -163,13 +188,14 @@ h2 b {
 }
 .brand { display: flex; flex-direction: column; gap: 3px; }
 .label {
+  color: var(--chalk);
   font-family: var(--mono);
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .18em;
 }
-.label.sub { font-weight: 400; font-size: 11px; color: var(--muted); letter-spacing: .12em; }
+.label.sub { font-weight: 400; font-size: 11px; color: rgba(241, 228, 200, .65); letter-spacing: .12em; }
 
 .top h1 {
   margin: 0;
@@ -179,7 +205,10 @@ h2 b {
   line-height: 1;
   letter-spacing: -.01em;
   white-space: nowrap;
+  color: var(--chalk);
+  text-shadow: 0 2px 10px rgba(10, 4, 0, .45);
 }
+.top h1 em { color: var(--ink); text-shadow: none; }
 .burst-word { position: relative; display: inline-block; padding: 0 .1em; }
 .burst-word em { position: relative; }
 .burst {
@@ -204,9 +233,9 @@ h2 b {
   border: 2.5px solid var(--red);
   border-radius: 3px;
   padding: 7px 4px;
+  background: var(--paper);
+  box-shadow: 0 0 0 5px var(--paper), 0 8px 14px -4px rgba(15, 6, 0, .6);
   transform: rotate(4deg);
-  filter: url(#rough);
-  opacity: .9;
 }
 
 /* ---------- layout ---------- */
@@ -387,14 +416,13 @@ input[type="range"]::-moz-range-thumb {
   margin: 0 auto;
   border-radius: 2px;
   background: var(--paper-tex), var(--paper);
-  box-shadow: var(--lift), 0 40px 60px -30px rgba(80, 52, 14, .45);
+  box-shadow: var(--lift), 0 40px 60px -30px rgba(10, 4, 0, .6);
   cursor: crosshair;
 }
 .stage.erasing { cursor: cell; }
 
 .stage canvas,
 .stage .guide,
-.stage .stage-burst,
 .sticker-layer {
   position: absolute;
   inset: 0;
@@ -402,14 +430,6 @@ input[type="range"]::-moz-range-thumb {
   height: 100%;
 }
 .stage canvas { touch-action: none; }
-
-/* Mustard crayon starburst behind the fish (background only, not saved with the fish). */
-.stage-burst {
-  fill: var(--gold);
-  opacity: .38;
-  filter: url(#crayon);
-  pointer-events: none;
-}
 
 /* Washi tape holding the sheet down. */
 .tape {
@@ -465,12 +485,12 @@ input[type="range"]::-moz-range-thumb {
 .stage-tip {
   margin: 18px 0 0;
   text-align: center;
-  color: var(--muted);
+  color: rgba(241, 228, 200, .8);
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: .06em;
 }
-.stage-tip b { color: var(--red); }
+.stage-tip b { color: var(--gold); }
 
 /* ---------- stickers on the sheet ---------- */
 .sticker-layer { pointer-events: none; z-index: 2; }
@@ -610,12 +630,12 @@ input[type="range"]::-moz-range-thumb {
   z-index: 40;
   display: grid;
   place-items: center;
-  background: rgba(50, 34, 10, .5);
+  background: rgba(20, 10, 2, .55);
   backdrop-filter: blur(4px);
 }
 .done[hidden] { display: none; }
 .polaroid {
-  width: min(400px, calc(100vw - 32px));
+  width: min(460px, calc(100vw - 32px));
   background: var(--paper-tex), #fffdf6;
   padding: 16px 16px 20px;
   box-shadow: 0 30px 60px -20px rgba(30, 18, 4, .7), 0 6px 14px rgba(30, 18, 4, .3);
@@ -624,42 +644,19 @@ input[type="range"]::-moz-range-thumb {
   animation: drop .5s cubic-bezier(.2, 1.3, .4, 1);
 }
 .photo {
-  position: relative;
-  height: 240px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  /* Planted tank water, lit from above */
-  background:
-    radial-gradient(80% 60% at 70% 0%, rgba(255, 240, 190, .55), transparent 70%),
-    linear-gradient(180deg, #b4cfa0 0%, #7fa478 40%, #4c7656 80%, #3b5f45 100%);
+  height: 250px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .2);
 }
-.tank-light {
+.done-fish {
   position: absolute;
-  inset: -20%;
-  background: repeating-linear-gradient(-34deg, transparent 0 30px, rgba(255, 236, 180, .35) 40px 70px, transparent 80px 110px);
-  filter: blur(6px);
-}
-.gravel {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 16%;
-  /* Speckled pebbles */
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.28' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .97 0 0 0 0 .93 0 0 0 0 .84 0 0 -3.4 0 2.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.22' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .26 0 0 -3.2 0 1.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)'/%3E%3C/svg%3E"),
-    #c9b58a;
-  box-shadow: 0 -6px 12px rgba(40, 60, 30, .35);
-}
-.photo img {
-  position: relative;
-  max-width: 82%;
-  max-height: 70%;
-  margin-bottom: 18px;
-  filter: drop-shadow(0 10px 8px rgba(20, 40, 20, .35));
-  animation: swim 2.8s ease-in-out infinite;
+  left: 50%;
+  top: 44%;
+  width: auto;
+  max-width: 62%;
+  max-height: 52%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 14px 10px rgba(10, 35, 20, .35)) saturate(.95);
+  animation: swim 3s ease-in-out infinite;
 }
 .caption {
   margin: 14px 0 0;
@@ -680,12 +677,12 @@ input[type="range"]::-moz-range-thumb {
 
 @keyframes drop { from { transform: rotate(-12deg) translateY(-40px) scale(.8); opacity: 0; } }
 @keyframes swim {
-  0%, 100% { transform: translate(-10px, 0) rotate(-2deg); }
-  50% { transform: translate(10px, -6px) rotate(2deg); }
+  0%, 100% { transform: translate(calc(-50% - 14px), -50%) rotate(-2deg); }
+  50% { transform: translate(calc(-50% + 14px), calc(-50% - 8px)) rotate(2deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sun, .leaf-shadow, .polaroid, .photo img { animation: none; }
+  .sun, .leaf-shadow, .polaroid, .done-fish { animation: none; }
 }
 
 /* Smaller laptop screens */
