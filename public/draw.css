@@ -127,18 +127,8 @@ h2 b {
   gap: 16px;
   padding: 16px 28px 0;
 }
-.brand { display: flex; flex-direction: column; gap: 3px; }
-.label {
-  color: var(--chalk);
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .18em;
-}
-.label.sub { font-weight: 400; font-size: 11px; color: rgba(241, 228, 200, .65); letter-spacing: .12em; }
-
 .top h1 {
+  grid-column: 2;
   margin: 0;
   font-family: var(--serif);
   font-weight: 400;
@@ -686,5 +676,4 @@ input[type="range"]::-moz-range-thumb {
 @media (max-width: 1180px) {
   .layout { grid-template-columns: 220px minmax(0, 1fr) 240px; gap: 18px; padding: 10px 18px 18px; }
   .top { padding: 12px 18px 0; }
-  .label.sub { display: none; }
 }
