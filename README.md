@@ -6,6 +6,8 @@ message, and it joins the tank on the kitchen monitor.
 
 ## Run it
 
+Step-by-step guide with troubleshooting: see **[FISHTANK.md](FISHTANK.md)**.
+
 You need [Node.js](https://nodejs.org) 18 or newer. No other installs.
 
 ```bash
