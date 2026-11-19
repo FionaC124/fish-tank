@@ -192,6 +192,16 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n⚠️  Port ${PORT} is already in use. The fish tank is probably still running in another`);
+    console.error('   Terminal window: find it and press Ctrl+C, then run npm start again.');
+    console.error(`   (Or stop it with:  lsof -ti :${PORT} | xargs kill )\n`);
+    process.exit(1);
+  }
+  throw err;
+});
+
 server.listen(PORT, '0.0.0.0', () => {
   const lan = Object.values(os.networkInterfaces())
     .flat()
